@@ -6,9 +6,12 @@ using namespace std;
 int main() {
     Graph g;
 
-    cout << g.addNode();
-    cout << g.addNode() << endl; 
-    g.addEdge(0, 1);
+    g.addNode();
+    g.addNode();
+
+    g.addEdge(0, 1, 1);
+
+    g.printMatrix();
     g.printList();
 
     cout << "Done!" << endl;
