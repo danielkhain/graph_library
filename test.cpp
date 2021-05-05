@@ -6,6 +6,14 @@ using namespace std;
 int main() {
     Graph g;
 
+    // Error checks for addEdge
+    g.addEdge(1, 2, 1);
+    g.addEdge(1, 1, 1);
+
+    // Error checks for removeEdge
+    g.removeEdge(1, 2, 1);
+    g.removeEdge(1, 1, 1);
+
     g.addNode();
     g.addNode();
     g.addNode();

@@ -1,5 +1,6 @@
 #include "Graph.h"
 
+
 using std::set;
 using std::vector;
 
@@ -8,12 +9,14 @@ Graph::Graph(){
     verbose = true;
 }
 
+// Set flag for informative prints
 void Graph::setVerbose(bool verbose_in){
     verbose = verbose_in;
 }
 
+// Add node to the graph
 int Graph::addNode(){
-    adj_list[node_ctr] = set<int>();
+    adj_list[node_ctr] = set<unsigned int>();
     adj_matrix.push_back(vector<int>(node_ctr + 1, 0));
 
     for (int i = 0; i < adj_matrix.size()-1; i++){
@@ -23,7 +26,12 @@ int Graph::addNode(){
     return node_ctr++;
 }
 
-void Graph::addEdge(int source, int dest, bool directed){
+// Add edge to the graph
+int Graph::addEdge(unsigned int source, unsigned int dest, bool directed){
+    if (source >= node_ctr || dest >= node_ctr || source == dest){
+        !verbose ? : printf("Error adding edge from %d to %d.\n", source, dest);
+        return -1;
+    }
     adj_list[source].insert(dest);
     adj_matrix[source][dest] = 1;
     !verbose ? : printf("Adding edge from %d to %d.\n", source, dest);
@@ -32,10 +40,17 @@ void Graph::addEdge(int source, int dest, bool directed){
         adj_matrix[dest][source] = 1;
         !verbose ? : printf("Adding edge from %d to %d.\n", dest, source);
     }
+    return 0;
 
 }
 
-void Graph::removeEdge(int source, int dest, bool directed){
+// Remove edge from graph
+int Graph::removeEdge(unsigned int source, unsigned int dest, bool directed){
+    if (source >= node_ctr || dest >= node_ctr || source == dest){
+        !verbose ? : printf("Error removing edge from %d to %d.\n", source, dest);
+        return -1;
+    }
+
     adj_list[source].erase(dest);
     adj_matrix[source][dest] = 0;
     !verbose ? : printf("Removing edge from %d to %d.\n", source, dest);
@@ -44,10 +59,30 @@ void Graph::removeEdge(int source, int dest, bool directed){
         adj_matrix[dest][source] = 0;
         !verbose ? : printf("Removing edge from %d to %d.\n", dest, source);
     }
-
+    return 0;
 
 }
 
+int Graph::neighbors(unsigned int source, set<unsigned int>& nbors){
+    if (source >= node_ctr){
+        !verbose ? : printf("Node %d not in graph.\n", source);
+        return -1;
+    }
+
+    nbors = adj_list[source];
+
+
+    return 0;
+
+}
+
+
+
+
+
+
+
+// Print adjacency list
 void Graph::printList(){
     printf("\n");
     auto it = adj_list.begin();
@@ -61,8 +96,10 @@ void Graph::printList(){
         printf("\n");
         it++;
     }
+    printf("\n");
 }
 
+// Print adjacency matrix
 void Graph::printMatrix(){
     printf("\n    ");
     for (int i = 0; i < adj_matrix.size(); i++){
@@ -82,6 +119,7 @@ void Graph::printMatrix(){
     }
 }
 
+// Print graph in CSV format
 void Graph::printCSV(){
     printf("\n");
     for (int i = 0; i < adj_matrix.size(); i++){
@@ -90,8 +128,4 @@ void Graph::printCSV(){
         }
         printf("\n");
     }
-}
-
-int Graph::traverse(int sources[], int goal, bool bfs){
-    return 0;
 }
