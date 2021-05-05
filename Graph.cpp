@@ -63,6 +63,7 @@ int Graph::removeEdge(unsigned int source, unsigned int dest, bool directed){
 
 }
 
+// Returns a node's neighbors
 int Graph::neighbors(unsigned int source, set<unsigned int>& nbors){
     if (source >= node_ctr){
         !verbose ? : printf("Node %d not in graph.\n", source);
@@ -75,12 +76,6 @@ int Graph::neighbors(unsigned int source, set<unsigned int>& nbors){
     return 0;
 
 }
-
-
-
-
-
-
 
 // Print adjacency list
 void Graph::printList(){
