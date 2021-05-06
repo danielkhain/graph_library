@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <time.h>
 #include "Graph.h"
 
 using namespace std;
@@ -7,40 +8,44 @@ using namespace std;
 int main() {
     Graph g;
     int numNodes = 100;
+    int numEdges = 0;
     double transmission_coefficient = 0.5;
+    srand (time(NULL));
 
     //////////////////////////////////
     ////////// SET UP GRAPH //////////
     //////////////////////////////////
+
+    g.setVerbose(false);
 
     // Add nodes
     for (int i = 0; i < numNodes; i++){
         g.addNode();
     }
 
-    // Add edges
+    // Add random edges
     for (int i = 0; i < numNodes; i++){
-        g.addEdge(i, i*7 % numNodes, 0); // Fix the thingy and put in rand()...
-        g.addEdge(i, i*23 % numNodes, 0);
-        g.addEdge(i, i*85 % numNodes, 0);
-        g.addEdge(i, i*17 % numNodes, 0);
-        g.addEdge(i, i*15 % numNodes, 0);
+        for (int k = 0; k < ((rand() % numNodes) / 10); k++){
+            g.addEdge(i, (rand() % numNodes), 0);
+            numEdges++;
+        }
     }
 
     g.printList();
+    g.printCSV();
 
     //////////////////////////////////
     /// SAMPLE PROGRAM: INFECTIONS ///
     //////////////////////////////////
 
     vector<bool> infected(numNodes, false);
-    unsigned int source = 26;
-    int numInfected = 1;
+    unsigned int source = rand() % numNodes;
 
     queue<unsigned int> bfs_queue;
 
     bfs_queue.push(source);
     infected[source] = true;
+    int numInfected = 1;
     cout << "Node " << source << " starts out infected!" << endl;
 
     while(!bfs_queue.empty()){
@@ -51,10 +56,12 @@ int main() {
         auto it = nbors.begin();
         while(it != nbors.end()){
             if (!infected[*it]){
-                infected[*it] = true;
-                bfs_queue.push(*it);
-                cout << "Node " << *it << " was infected!" << endl;
-                numInfected++;
+                if (rand() % 100 <= transmission_coefficient * 100){
+                    infected[*it] = true;
+                    bfs_queue.push(*it);
+                    cout << "Node " << *it << " was infected!" << endl;
+                    numInfected++;
+                }
             }
             it++;
         }
@@ -62,5 +69,7 @@ int main() {
     }
 
     cout << "The number of infected nodes is  " << numInfected << "/" << numNodes << endl;
+    cout << numEdges << endl;
+    cout << "The average degree of each node is " << numEdges / numNodes * 2 << endl;
 
 }

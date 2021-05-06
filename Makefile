@@ -7,13 +7,6 @@ GRAPH_SOURCES=Graph.cpp
 GRAPH_OBJS=${GRAPH_SOURCES:.cpp=.o}
 
 all: Graph.o app infection
-#
-# # Compile the thread library and tag this compilation
-# libgraph.o: ${GRAPH_OBJS}
-# 	ld -r -o $@ ${GRAPH_OBJS}
-
-# libgraph.o: Graph.cpp
-# 	${CC} -c Graph.cpp
 
 # Compile an application program
 app: test.cpp Graph.o
