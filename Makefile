@@ -15,8 +15,6 @@ app: test.cpp Graph.o
 infection: infection_propagation.cpp Graph.o
 	${CC} -o $@ $^ -ldl
 
-
-
 # Generic rules for compiling a source file to an object file
 %.o: %.cpp
 	${CC} -c $<

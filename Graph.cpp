@@ -3,16 +3,18 @@
 
 using std::set;
 using std::vector;
+using std::list;
 
 Graph::Graph(){
     node_ctr = 0;
     verbose = true;
 }
 
-// Set flag for informative prints
-void Graph::setVerbose(bool verbose_in){
-    verbose = verbose_in;
-}
+
+
+///////////////////////////////
+///// GRAPH MODIFICATIONS /////
+///////////////////////////////
 
 // Add node to the graph
 int Graph::addNode(){
@@ -27,17 +29,17 @@ int Graph::addNode(){
 }
 
 // Add edge to the graph
-int Graph::addEdge(unsigned int source, unsigned int dest, bool directed){
+int Graph::addEdge(unsigned int source, unsigned int dest, int weight, bool directed){
     if (source >= node_ctr || dest >= node_ctr || source == dest){
         !verbose ? : printf("Error adding edge from %d to %d.\n", source, dest);
         return -1;
     }
-    adj_list[source].insert(dest);
-    adj_matrix[source][dest] = 1;
+    // adj_list[source].insert(dest);
+    adj_matrix[source][dest] = weight;
     !verbose ? : printf("Adding edge from %d to %d.\n", source, dest);
     if (!directed){
-        adj_list[dest].insert(source);
-        adj_matrix[dest][source] = 1;
+        // adj_list[dest].insert(source);
+        adj_matrix[dest][source] = weight;
         !verbose ? : printf("Adding edge from %d to %d.\n", dest, source);
     }
     return 0;
@@ -51,17 +53,22 @@ int Graph::removeEdge(unsigned int source, unsigned int dest, bool directed){
         return -1;
     }
 
-    adj_list[source].erase(dest);
+    // adj_list[source].erase(dest);
     adj_matrix[source][dest] = 0;
     !verbose ? : printf("Removing edge from %d to %d.\n", source, dest);
     if (!directed){
-        adj_list[dest].erase(source);
+        // adj_list[dest].erase(source);
         adj_matrix[dest][source] = 0;
         !verbose ? : printf("Removing edge from %d to %d.\n", dest, source);
     }
     return 0;
 
 }
+
+
+////////////////////////////////
+////// GRAPH CALCULATIONS //////
+////////////////////////////////
 
 // Returns a node's neighbors
 int Graph::neighbors(unsigned int source, set<unsigned int>& nbors){
@@ -70,11 +77,26 @@ int Graph::neighbors(unsigned int source, set<unsigned int>& nbors){
         return -1;
     }
 
-    nbors = adj_list[source];
+    for (int i = 0; i < adj_matrix.size(); i++){
+        if (adj_matrix[source][i] != 0){
+            nbors.insert(i);
+        }
+    }
 
+    // nbors = adj_list[source];
 
     return 0;
 
+}
+
+
+////////////////////////////////
+/////// PRINTING HELPERS ///////
+////////////////////////////////
+
+// Set flag for informative prints
+void Graph::setVerbose(bool verbose_in){
+    verbose = verbose_in;
 }
 
 // Print adjacency list

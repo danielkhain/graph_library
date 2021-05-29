@@ -7,9 +7,9 @@ using namespace std;
 
 int main() {
     Graph g;
-    int numNodes = 100;
+    int numNodes = 50;
     int numEdges = 0;
-    double transmission_coefficient = 0.5;
+    double transmission_coefficient = 0.3;
     srand (time(NULL));
 
     //////////////////////////////////
@@ -25,8 +25,8 @@ int main() {
 
     // Add random edges
     for (int i = 0; i < numNodes; i++){
-        for (int k = 0; k < ((rand() % numNodes) / 10); k++){
-            g.addEdge(i, (rand() % numNodes), 0);
+        for (int k = 0; k < ((rand() % numNodes) / 15); k++){
+            g.addEdge(i, (rand() % numNodes), 1, false);
             numEdges++;
         }
     }
@@ -69,7 +69,7 @@ int main() {
     }
 
     cout << "The number of infected nodes is  " << numInfected << "/" << numNodes << endl;
-    cout << numEdges << endl;
+    cout << "The number of edges is " << numEdges << endl;
     cout << "The average degree of each node is " << numEdges / numNodes * 2 << endl;
 
 }
