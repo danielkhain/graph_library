@@ -23,4 +23,4 @@ In this simulation, 8/50 nodes were infected.
 The number of edges is 56.
 The average degree of each node is 2.
 
-![](network.png)
+![Infected Network](network.png =283x250)
