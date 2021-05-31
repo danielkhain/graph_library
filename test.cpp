@@ -25,6 +25,14 @@ int main() {
     g.addEdge(4, 1, 3, true);
     g.addEdge(3, 4, 1, false);
 
+    cout << "Shortest Path Tests:\n";
+    cout << "Now 1,1\n";
+    cout << g.shortestPath(1,1) << endl;
+    cout << "Now 1,2\n";
+    cout << g.shortestPath(1,2) << endl;
+    cout << "Now 2,4\n";
+    cout << g.shortestPath(2,4) << endl;
+
 
     g.printMatrix();
     g.printList();

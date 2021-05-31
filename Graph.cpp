@@ -1,5 +1,6 @@
 #include "Graph.h"
-
+#include <limits>
+#include <iostream>
 
 using std::set;
 using std::vector;
@@ -7,10 +8,8 @@ using std::list;
 
 Graph::Graph(){
     node_ctr = 0;
-    verbose = true;
+    verbose = false;
 }
-
-
 
 ///////////////////////////////
 ///// GRAPH MODIFICATIONS /////
@@ -19,17 +18,18 @@ Graph::Graph(){
 // Add node to the graph
 int Graph::addNode(){
     adj_list[node_ctr] = set<unsigned int>();
-    adj_matrix.push_back(vector<int>(node_ctr + 1, 0));
+    adj_matrix.push_back(vector<double>(node_ctr + 1, std::numeric_limits<double>::infinity()));
 
     for (int i = 0; i < adj_matrix.size()-1; i++){
-        adj_matrix[i].push_back(0);
+        adj_matrix[i].push_back(std::numeric_limits<double>::infinity());
     }
     !verbose ? : printf("Adding node %d.\n", node_ctr);
     return node_ctr++;
 }
 
 // Add edge to the graph
-int Graph::addEdge(unsigned int source, unsigned int dest, int weight, bool directed){
+int Graph::addEdge(unsigned int source, unsigned int dest, double weight, bool directed){
+    directed = false;
     if (source >= node_ctr || dest >= node_ctr || source == dest){
         !verbose ? : printf("Error adding edge from %d to %d.\n", source, dest);
         return -1;
@@ -48,6 +48,7 @@ int Graph::addEdge(unsigned int source, unsigned int dest, int weight, bool dire
 
 // Remove edge from graph
 int Graph::removeEdge(unsigned int source, unsigned int dest, bool directed){
+    directed = false;
     if (source >= node_ctr || dest >= node_ctr || source == dest){
         !verbose ? : printf("Error removing edge from %d to %d.\n", source, dest);
         return -1;
@@ -78,7 +79,7 @@ int Graph::neighbors(unsigned int source, set<unsigned int>& nbors){
     }
 
     for (int i = 0; i < adj_matrix.size(); i++){
-        if (adj_matrix[source][i] != 0){
+        if (adj_matrix[source][i] != std::numeric_limits<double>::infinity()){
             nbors.insert(i);
         }
     }
@@ -87,6 +88,47 @@ int Graph::neighbors(unsigned int source, set<unsigned int>& nbors){
 
     return 0;
 
+}
+
+// Dijkstra's Shortest Path Algorithm
+double Graph::shortestPath(unsigned int source, unsigned int dest){
+    set<unsigned int> tree;
+    vector<double> distToNode(node_ctr, std::numeric_limits<double>::infinity());
+    vector<bool> visited(node_ctr, false);
+
+
+    distToNode[source] = 0;
+    int numIters = 0;
+
+    while(numIters < node_ctr){
+        // Select closest unvisited node
+        double min = std::numeric_limits<double>::infinity();
+        int min_index;
+        for (int i = 0; i < node_ctr; i++){
+            if (!visited[i] && distToNode[i] <= min){
+                min = distToNode[i];
+                min_index = i;
+            }
+        }
+
+        visited[min_index] = true;
+
+        set<unsigned int> nbors;
+        neighbors(min_index, nbors);
+
+        // Update distance to selected node's neighbors
+        auto it = nbors.begin();
+        while(it != nbors.end()){
+            if (!visited[*it] &&
+                (!isinf(distToNode[min_index]) && !isinf(adj_matrix[*it][min_index])) &&
+                (distToNode[min_index] + adj_matrix[*it][min_index] < distToNode[*it])){
+                distToNode[*it] = distToNode[min_index] + adj_matrix[*it][min_index];
+            }
+            it++;
+        }
+        numIters++;
+    }
+    return distToNode[dest];
 }
 
 
@@ -130,7 +172,7 @@ void Graph::printMatrix(){
     for (int i = 0; i < adj_matrix.size(); i++){
         printf("%d | ", i);
         for (int k = 0; k < adj_matrix[i].size(); k++){
-            printf("%d ", adj_matrix[i][k]);
+            printf("%f ", adj_matrix[i][k]);
         }
         printf("\n");
     }
@@ -141,7 +183,7 @@ void Graph::printCSV(){
     printf("\n");
     for (int i = 0; i < adj_matrix.size(); i++){
         for (int k = 0; k < adj_matrix[i].size(); k++){
-            printf("%d,", adj_matrix[i][k]);
+            printf("%f,", adj_matrix[i][k]);
         }
         printf("\n");
     }

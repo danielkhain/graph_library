@@ -16,7 +16,7 @@ public:
     ///////////////////////////////
 
     int addNode();
-    int addEdge(unsigned int, unsigned int, int, bool);
+    int addEdge(unsigned int, unsigned int, double, bool);
     int removeEdge(unsigned int, unsigned int, bool);
 
     ////////////////////////////////
@@ -24,6 +24,8 @@ public:
     ////////////////////////////////
 
     int neighbors(unsigned int, std::set<unsigned int>&);
+    double shortestPath(unsigned int, unsigned int);
+
 
     ////////////////////////////////
     /////// PRINTING HELPERS ///////
@@ -36,7 +38,7 @@ public:
 
 private:
     std::unordered_map<int, std::set<unsigned int> > adj_list; // node -> list of nodes it connects to
-    std::vector<std::vector<int> > adj_matrix;
+    std::vector<std::vector<double> > adj_matrix;
     unsigned int node_ctr;
     bool verbose;
 

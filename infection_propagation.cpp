@@ -75,5 +75,4 @@ int main() {
     cout << "The number of infected nodes is  " << numInfected << "/" << numNodes << endl;
     cout << "The number of edges is " << numEdges << endl;
     cout << "The average degree of each node is " << numEdges / numNodes * 2 << endl;
-
 }
