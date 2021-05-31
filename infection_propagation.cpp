@@ -7,15 +7,21 @@ using namespace std;
 
 int main() {
     Graph g;
+
+    //////////////////////////////////
+    /////////// PARAMETERS ///////////
+    //////////////////////////////////
+
     int numNodes = 50;
-    int numEdges = 0;
     double transmission_coefficient = 0.3;
+
+
+    ////////////////////////////////
+    ///////// GRAPH SETUP //////////
+    ////////////////////////////////
+
+    int numEdges = 0;
     srand (time(NULL));
-
-    //////////////////////////////////
-    ////////// SET UP GRAPH //////////
-    //////////////////////////////////
-
     g.setVerbose(false);
 
     // Add nodes
@@ -31,8 +37,6 @@ int main() {
         }
     }
 
-    g.printList();
-    g.printCSV();
 
     //////////////////////////////////
     /// SAMPLE PROGRAM: INFECTIONS ///

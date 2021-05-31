@@ -1,9 +1,9 @@
 CC=g++ -g -Wall -std=c++17
 
-# List of source files for your thread library
+# List of source files for your graph library
 GRAPH_SOURCES=Graph.cpp
 
-# Generate the names of the thread library's object files
+# Generate the names of the graph library's object files
 GRAPH_OBJS=${GRAPH_SOURCES:.cpp=.o}
 
 all: Graph.o app infection
