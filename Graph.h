@@ -25,7 +25,7 @@ public:
 
     int neighbors(unsigned int, std::set<unsigned int>&);
     double shortestPath(unsigned int, unsigned int);
-
+    double minimumSpanningTree(std::vector<std::pair<unsigned int, unsigned int>>& minTree);
 
     ////////////////////////////////
     /////// PRINTING HELPERS ///////
@@ -41,6 +41,7 @@ private:
     std::vector<std::vector<double> > adj_matrix;
     unsigned int node_ctr;
     bool verbose;
+    double inf = std::numeric_limits<double>::infinity();
 
 };
 

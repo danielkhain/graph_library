@@ -32,6 +32,21 @@ int main() {
     cout << g.shortestPath(1,2) << endl;
     cout << "Now 2,4\n";
     cout << g.shortestPath(2,4) << endl;
+    g.addNode();
+    cout << g.shortestPath(1,5) << endl;
+    cout << g.shortestPath(5,1) << endl;
+
+    cout << "Doing MST!\n";
+    g.addEdge(1,5,1,false);
+    g.addEdge(2,5,1,false);
+    g.addEdge(3,5,1,false);
+    
+    std::vector<std::pair<unsigned int, unsigned int>> minTree;
+    cout << g.minimumSpanningTree(minTree) << endl;
+    g.printCSV();
+    for (int i = 0; i < minTree.size(); i++){
+        cout << minTree[i].first << "-" << minTree[i].second << endl;
+    }
 
 
     g.printMatrix();
