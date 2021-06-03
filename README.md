@@ -1,5 +1,53 @@
 # Graph Library
 
+This is a C++ Graph Library that can be used to implement graph-based programs.
+The library supports the creation of nodes, addition and deletion of edges, and can calculate the shortest path between two nodes and
+the minimum spanning tree.
+
+A short sample program is below, and a more detailed sample program is provided in the next section.
+```
+#include "Graph.h"
+
+int main() {
+    Graph g;
+
+    g.setVerbose(true);
+
+    g.addNode();
+    g.addNode();
+    g.addNode();
+
+    g.addEdge(0, 1, 1);
+    g.addEdge(1, 2, 7);
+
+    g.shortestPath(0, 2);
+    g.printCSV();
+
+}
+```
+The short sample program can be executed with the following steps:
+1. `make clean`
+2. `make test`
+3. `./test`
+
+The program's output is as follows:
+
+```
+Adding node 0.
+Adding node 1.
+Adding node 2.
+Adding edge from 0 to 1.
+Adding edge from 1 to 0.
+Adding edge from 1 to 2.
+Adding edge from 2 to 1.
+The shortest path from node 0 to 2 is 8.000000.
+
+0.000000,1.000000,inf,
+1.000000,0.000000,7.000000,
+inf,7.000000,0.000000,
+```
+
+
 ## Sample Program: Infections on a Network
 The Graph Library can be used to model an infection spreading through a network.
 ### Running Instructions

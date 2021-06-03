@@ -30,21 +30,20 @@ class Graph {
     int neighbors(unsigned int, std::set<unsigned int>&);
     double shortestPath(unsigned int, unsigned int);
     double minimumSpanningTree(std::vector<
-                            std::pair<unsigned int, unsigned int>>* minTree);
+                            std::pair<unsigned int, unsigned int> >* minTree);
 
     ////////////////////////////////
     /////// PRINTING HELPERS ///////
     ////////////////////////////////
 
     void setVerbose(bool);
-    void printMatrix();
     void printCSV();
 
  private:
     std::vector<std::vector<double> > adj_matrix;
     unsigned int node_ctr;
     bool verbose;
-    double inf = std::numeric_limits<double>::infinity();
+    const double inf = std::numeric_limits<double>::infinity();
 };
 
 #endif  // GRAPH_H_

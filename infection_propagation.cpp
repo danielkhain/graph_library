@@ -1,9 +1,15 @@
+// Copyright 2021 Daniel Khain
+
+#include "Graph.h"
+#include <time.h>
 #include <iostream>
 #include <queue>
-#include <time.h>
-#include "Graph.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::set;
+using std::queue;
+using std::vector;
 
 int main() {
     Graph g;
@@ -21,17 +27,17 @@ int main() {
     ////////////////////////////////
 
     int numEdges = 0;
-    srand (time(NULL));
+    srand(time(NULL));
     g.setVerbose(false);
 
     // Add nodes
-    for (int i = 0; i < numNodes; i++){
+    for (int i = 0; i < numNodes; i++) {
         g.addNode();
     }
 
     // Add random edges
-    for (int i = 0; i < numNodes; i++){
-        for (int k = 0; k < ((rand() % numNodes) / 15); k++){
+    for (int i = 0; i < numNodes; i++) {
+        for (int k = 0; k < ((rand() % numNodes) / 15); k++) {
             g.addEdge(i, (rand() % numNodes), 1);
             numEdges++;
         }
@@ -52,15 +58,15 @@ int main() {
     int numInfected = 1;
     cout << "Node " << source << " starts out infected!" << endl;
 
-    while(!bfs_queue.empty()){
+    while (!bfs_queue.empty()) {
         set<unsigned int> nbors;
         g.neighbors(bfs_queue.front(), nbors);
         bfs_queue.pop();
 
         auto it = nbors.begin();
-        while(it != nbors.end()){
-            if (!infected[*it]){
-                if (rand() % 100 <= transmission_coefficient * 100){
+        while (it != nbors.end()) {
+            if (!infected[*it]) {
+                if (rand() % 100 <= transmission_coefficient * 100) {
                     infected[*it] = true;
                     bfs_queue.push(*it);
                     cout << "Node " << *it << " was infected!" << endl;
@@ -69,10 +75,11 @@ int main() {
             }
             it++;
         }
-
     }
 
-    cout << "The number of infected nodes is  " << numInfected << "/" << numNodes << endl;
+    cout << "The number of infected nodes is  " << numInfected << "/"
+         << numNodes << endl;
     cout << "The number of edges is " << numEdges << endl;
-    cout << "The average degree of each node is " << numEdges / numNodes * 2 << endl;
+    cout << "The average degree of each node is " << numEdges / numNodes * 2
+         << endl;
 }

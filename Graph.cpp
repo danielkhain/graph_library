@@ -119,6 +119,8 @@ double Graph::shortestPath(unsigned int source, unsigned int dest) {
         }
         numIters++;
     }
+    !verbose ? : printf("The shortest path from node %d to %d is %f.\n",
+                        source, dest, distToNode[dest]);
     return distToNode[dest];
 }
 
@@ -167,6 +169,8 @@ double Graph::minimumSpanningTree(vector<pair<unsigned int,
             it++;
         }
     }
+    !verbose ? : printf("The weight of the minimum spanning tree is %f.\n",
+                        MSTWeight);
     return MSTWeight;
 }
 
@@ -178,26 +182,6 @@ double Graph::minimumSpanningTree(vector<pair<unsigned int,
 // Set flag for informative prints
 void Graph::setVerbose(bool verbose_in) {
     verbose = verbose_in;
-}
-
-// Print adjacency matrix
-void Graph::printMatrix() {
-    printf("\n    ");
-    for (int i = 0; i < adj_matrix.size(); i++) {
-        printf("%d ", i);
-    }
-    printf("\n----");
-    for (int i = 0; i < adj_matrix.size(); i++) {
-        printf("--");
-    }
-    printf("\n");
-    for (int i = 0; i < adj_matrix.size(); i++) {
-        printf("%d | ", i);
-        for (int k = 0; k < adj_matrix[i].size(); k++) {
-            printf("%f ", adj_matrix[i][k]);
-        }
-        printf("\n");
-    }
 }
 
 // Print graph in CSV format

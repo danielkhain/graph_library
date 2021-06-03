@@ -6,10 +6,10 @@ GRAPH_SOURCES=Graph.cpp
 # Generate the names of the graph library's object files
 GRAPH_OBJS=${GRAPH_SOURCES:.cpp=.o}
 
-all: Graph.o app infection
+all: Graph.o test infection
 
 # Compile an application program
-app: test.cpp Graph.o
+test: test.cpp Graph.o
 	${CC} -o $@ $^ -ldl
 
 infection: infection_propagation.cpp Graph.o
@@ -22,4 +22,4 @@ infection: infection_propagation.cpp Graph.o
 	${CC} -c $<
 
 clean:
-	rm -f ${GRAPH_OBJS} app infection
+	rm -f ${GRAPH_OBJS} test infection
