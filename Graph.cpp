@@ -1,12 +1,13 @@
+// Copyright 2021 Daniel Khain
+
 #include "Graph.h"
 #include <limits>
-#include <iostream>
 
 using std::set;
 using std::vector;
 using std::list;
-using std::cout;
-using std::endl;
+using std::pair;
+using std::make_pair;
 
 Graph::Graph() {
     node_ctr = 0;
@@ -19,7 +20,6 @@ Graph::Graph() {
 
 // Add node to the graph
 int Graph::addNode() {
-    adj_list[node_ctr] = set<unsigned int>();
     adj_matrix.push_back(vector<double>(node_ctr + 1, inf));
 
     for (int i = 0; i < adj_matrix.size()-1; i++) {
@@ -31,42 +31,31 @@ int Graph::addNode() {
 }
 
 // Add edge to the graph
-int Graph::addEdge(unsigned int source, unsigned int dest, double weight, bool directed) {
-    directed = false;
+int Graph::addEdge(unsigned int source, unsigned int dest, double weight) {
     if (source >= node_ctr || dest >= node_ctr || source == dest) {
         !verbose ? : printf("Error adding edge from %d to %d.\n", source, dest);
         return -1;
     }
-    // adj_list[source].insert(dest);
     adj_matrix[source][dest] = weight;
     !verbose ? : printf("Adding edge from %d to %d.\n", source, dest);
-    if (!directed) {
-        // adj_list[dest].insert(source);
-        adj_matrix[dest][source] = weight;
-        !verbose ? : printf("Adding edge from %d to %d.\n", dest, source);
-    }
+    adj_matrix[dest][source] = weight;
+    !verbose ? : printf("Adding edge from %d to %d.\n", dest, source);
     return 0;
-
 }
 
 // Remove edge from graph
-int Graph::removeEdge(unsigned int source, unsigned int dest, bool directed) {
-    directed = false;
+int Graph::removeEdge(unsigned int source, unsigned int dest) {
     if (source >= node_ctr || dest >= node_ctr || source == dest) {
-        !verbose ? : printf("Error removing edge from %d to %d.\n", source, dest);
+        !verbose ? : printf("Error removing edge from %d to %d.\n", source,
+                            dest);
         return -1;
     }
 
-    // adj_list[source].erase(dest);
     adj_matrix[source][dest] = 0;
     !verbose ? : printf("Removing edge from %d to %d.\n", source, dest);
-    if (!directed){
-        // adj_list[dest].erase(source);
-        adj_matrix[dest][source] = 0;
-        !verbose ? : printf("Removing edge from %d to %d.\n", dest, source);
-    }
+    adj_matrix[dest][source] = 0;
+    !verbose ? : printf("Removing edge from %d to %d.\n", dest, source);
     return 0;
-
 }
 
 
@@ -82,15 +71,12 @@ int Graph::neighbors(unsigned int source, set<unsigned int>& nbors) {
     }
 
     for (int i = 0; i < adj_matrix.size(); i++) {
-        if ((source != i) && (adj_matrix[source][i] != inf)){
+        if ((source != i) && (adj_matrix[source][i] != inf)) {
             nbors.insert(i);
         }
     }
 
-    // nbors = adj_list[source];
-
     return 0;
-
 }
 
 // Dijkstra's Shortest Path Algorithm
@@ -99,11 +85,10 @@ double Graph::shortestPath(unsigned int source, unsigned int dest) {
     vector<double> distToNode(node_ctr, inf);
     vector<bool> visited(node_ctr, false);
 
-
     distToNode[source] = 0;
     int numIters = 0;
 
-    while(numIters < node_ctr) {
+    while (numIters < node_ctr) {
         // Select closest unvisited node
         double min = inf;
         int min_index;
@@ -121,11 +106,14 @@ double Graph::shortestPath(unsigned int source, unsigned int dest) {
 
         // Update distance to selected node's neighbors
         auto it = nbors.begin();
-        while(it != nbors.end()){
+        while (it != nbors.end()) {
             if (!visited[*it] &&
-                (!isinf(distToNode[min_index]) && !isinf(adj_matrix[*it][min_index])) &&
-                (distToNode[min_index] + adj_matrix[*it][min_index] < distToNode[*it])){
-                distToNode[*it] = distToNode[min_index] + adj_matrix[*it][min_index];
+                (!isinf(distToNode[min_index]) &&
+                !isinf(adj_matrix[*it][min_index])) &&
+                (distToNode[min_index] + adj_matrix[*it][min_index] <
+                                         distToNode[*it])) {
+                distToNode[*it] = distToNode[min_index] +
+                                  adj_matrix[*it][min_index];
             }
             it++;
         }
@@ -135,7 +123,8 @@ double Graph::shortestPath(unsigned int source, unsigned int dest) {
 }
 
 // Prim's Minimum Spanning Tree Algorithm
-double Graph::minimumSpanningTree(vector<std::pair<unsigned int, unsigned int>>& minTree) {
+double Graph::minimumSpanningTree(vector<pair<unsigned int,
+                                              unsigned int>>* minTree) {
     vector<unsigned int> included(node_ctr, false);
     vector<double> value(node_ctr, inf);
     vector<unsigned int> mostRecentNode(node_ctr, 0);
@@ -150,15 +139,15 @@ double Graph::minimumSpanningTree(vector<std::pair<unsigned int, unsigned int>>&
         double min = inf;
         int minIndex = 0;
         for (int i = 0; i < node_ctr; i++) {
-            if (!included[i] && value[i] < min){
+            if (!included[i] && value[i] < min) {
                 min = value[i];
                 minIndex = i;
             }
         }
 
         included[minIndex] = true;
-        if (minIndex != 0){
-            minTree.push_back(std::make_pair(minIndex, mostRecentNode[minIndex]));
+        if (minIndex != 0) {
+            minTree->push_back(make_pair(minIndex, mostRecentNode[minIndex]));
         }
 
         MSTWeight += min;
@@ -169,7 +158,7 @@ double Graph::minimumSpanningTree(vector<std::pair<unsigned int, unsigned int>>&
 
         // Update distance to selected node's neighbors
         auto it = nbors.begin();
-        while(it != nbors.end()){
+        while (it != nbors.end()) {
             if ((!included[*it]) && (adj_matrix[*it][minIndex] < value[*it])) {
                 value[*it] = adj_matrix[*it][minIndex];
                 mostRecentNode[*it] = minIndex;
@@ -189,23 +178,6 @@ double Graph::minimumSpanningTree(vector<std::pair<unsigned int, unsigned int>>&
 // Set flag for informative prints
 void Graph::setVerbose(bool verbose_in) {
     verbose = verbose_in;
-}
-
-// Print adjacency list
-void Graph::printList() {
-    printf("\n");
-    auto it = adj_list.begin();
-    while (it != adj_list.end()) {
-        printf("Node %d: ", it->first);
-        auto it2 = it->second.begin();
-        while(it2 != it->second.end()) {
-            printf("%d ", *it2);
-            it2++;
-        }
-        printf("\n");
-        it++;
-    }
-    printf("\n");
 }
 
 // Print adjacency matrix

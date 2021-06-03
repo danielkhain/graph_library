@@ -7,12 +7,12 @@ int main() {
     Graph g;
 
     // Error checks for addEdge
-    g.addEdge(1, 2, 1, true);
-    g.addEdge(1, 1, 1, true);
+    g.addEdge(1, 2, 1);
+    g.addEdge(1, 1, 1);
 
     // Error checks for removeEdge
-    g.removeEdge(1, 2, 1);
-    g.removeEdge(1, 1, 1);
+    g.removeEdge(1, 2);
+    g.removeEdge(1, 1);
 
     g.addNode();
     g.addNode();
@@ -20,10 +20,10 @@ int main() {
     g.addNode();
     g.addNode();
 
-    g.addEdge(0, 1, 1, true);
-    g.addEdge(1, 2, 4, false);
-    g.addEdge(4, 1, 3, true);
-    g.addEdge(3, 4, 1, false);
+    g.addEdge(0, 1, 1);
+    g.addEdge(1, 2, 4);
+    g.addEdge(4, 1, 3);
+    g.addEdge(3, 4, 1);
 
     cout << "Shortest Path Tests:\n";
     cout << "Now 1,1\n";
@@ -37,12 +37,12 @@ int main() {
     cout << g.shortestPath(5,1) << endl;
 
     cout << "Doing MST!\n";
-    g.addEdge(1,5,1,false);
-    g.addEdge(2,5,1,false);
-    g.addEdge(3,5,1,false);
-    
+    g.addEdge(1,5,1);
+    g.addEdge(2,5,1);
+    g.addEdge(3,5,1);
+
     std::vector<std::pair<unsigned int, unsigned int>> minTree;
-    cout << g.minimumSpanningTree(minTree) << endl;
+    cout << g.minimumSpanningTree(&minTree) << endl;
     g.printCSV();
     for (int i = 0; i < minTree.size(); i++){
         cout << minTree[i].first << "-" << minTree[i].second << endl;
@@ -50,12 +50,10 @@ int main() {
 
 
     g.printMatrix();
-    g.printList();
 
-    g.removeEdge(0, 1, 1);
+    g.removeEdge(0, 1);
 
     g.printMatrix();
-    g.printList();
 
     g.printCSV();
 

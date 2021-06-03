@@ -32,7 +32,7 @@ int main() {
     // Add random edges
     for (int i = 0; i < numNodes; i++){
         for (int k = 0; k < ((rand() % numNodes) / 15); k++){
-            g.addEdge(i, (rand() % numNodes), 1, false);
+            g.addEdge(i, (rand() % numNodes), 1);
             numEdges++;
         }
     }
