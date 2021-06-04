@@ -36,10 +36,8 @@ The program's output is as follows:
 Adding node 0.
 Adding node 1.
 Adding node 2.
-Adding edge from 0 to 1.
-Adding edge from 1 to 0.
-Adding edge from 1 to 2.
-Adding edge from 2 to 1.
+Adding edge from 0 to 1 with weight 1.000000.
+Adding edge from 1 to 2 with weight 7.000000.
 The shortest path from node 0 to 2 is 8.000000.
 
 0.000000,1.000000,inf,

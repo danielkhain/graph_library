@@ -37,9 +37,9 @@ int Graph::addEdge(unsigned int source, unsigned int dest, double weight) {
         return -1;
     }
     adj_matrix[source][dest] = weight;
-    !verbose ? : printf("Adding edge from %d to %d.\n", source, dest);
+    !verbose ? : printf("Adding edge from %d to %d with weight %f.\n", source,
+                        dest, weight);
     adj_matrix[dest][source] = weight;
-    !verbose ? : printf("Adding edge from %d to %d.\n", dest, source);
     return 0;
 }
 
