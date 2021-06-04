@@ -2,7 +2,7 @@
 
 This is a C++ Graph Library that can be used to implement graph-based programs.
 The library supports the creation of nodes, addition and deletion of edges, and can calculate the shortest path between two nodes and
-the minimum spanning tree.
+the minimum spanning tree of the graph.
 
 A short sample program is below, and a more detailed sample program is provided in the next section.
 ```
