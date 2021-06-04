@@ -22,7 +22,6 @@ int main() {
 
     g.shortestPath(0, 2);
     g.printCSV();
-
 }
 ```
 The short sample program can be executed with the following steps:
